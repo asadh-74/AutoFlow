@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AutoFlow — Automation Command Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"><script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<aside class="sidebar" id="sidebar">
+  <a class="brand"><span>A</span>AutoFlow</a>
+  <div class="workspace"><i></i><div><b>Operations</b><small>Production workspace</small></div></div>
+  <nav>
+    <button class="nav active" data-page="dashboard">⌂ <span>Dashboard</span></button>
+    <button class="nav" data-page="customers">◎ <span>Customers</span></button>
+    <button class="nav" data-page="automations">⌁ <span>Automations</span></button>
+    <button class="nav" data-page="executions">↯ <span>Executions</span></button>
+    <button class="nav" data-page="reports">▥ <span>Reports</span></button>
+  </nav>
+  <div class="side-bottom"><div class="health"><i></i><div><b>Systems healthy</b><small>n8n · Java · Python · SQL</small></div></div><div class="profile"><span>AH</span><div><b>Asad Hussain</b><small>Administrator</small></div></div></div>
+</aside>
+<main>
+<header>
+  <div class="title"><button id="menu">☰</button><div><small>AUTOMATION OPERATIONS</small><h1 id="title">Command Center</h1></div></div>
+  <div class="actions"><button id="cmd">⌕ Search <kbd>Ctrl K</kbd></button><button id="theme">◐</button><button class="primary" id="newFlow">＋ New workflow</button></div>
+</header>
+
+<section class="page active" id="dashboard">
+  <div class="hero"><div><small>LIVE BUSINESS AUTOMATION</small><h2>Automate operations. <em>Measure everything.</em></h2><p>A portfolio-grade command center connecting Spring Boot, FastAPI, PostgreSQL and your n8n workflows.</p><div class="hero-actions"><button class="primary" data-jump="automations">Explore automations</button><button class="ghost" data-jump="executions">View executions</button></div></div><div class="score"><div>99.4<small>% success</small></div></div></div>
+  <div class="metrics">
+    <article><span>↯</span><small>Workflow runs</small><h3>1,248</h3><b>↑ 18.2%</b><p>vs previous period</p></article>
+    <article><span>✓</span><small>Success rate</small><h3>99.4%</h3><b>↑ 0.8%</b><p>healthy execution</p></article>
+    <article><span>◎</span><small>Active customers</small><h3>486</h3><b>↑ 32</b><p>this month</p></article>
+    <article><span>◷</span><small>Hours automated</small><h3>214h</h3><b>↑ 41h</b><p>estimated saved</p></article>
+  </div>
+  <div class="grid">
+    <article class="panel chart"><div class="head"><div><small>PERFORMANCE</small><h3>Automation activity</h3></div><select><option>Last 7 days</option></select></div><canvas id="activity"></canvas></article>
+    <article class="panel"><div class="head"><div><small>INFRASTRUCTURE</small><h3>Service health</h3></div><b class="ok">● Operational</b></div><div id="services"></div></article>
+  </div>
+  <div class="grid">
+    <article class="panel"><div class="head"><div><small>WORKFLOWS</small><h3>Top automations</h3></div><button class="link" data-jump="automations">View all →</button></div><div id="topFlows"></div></article>
+    <article class="panel"><div class="head"><div><small>LIVE FEED</small><h3>Recent executions</h3></div><button class="link" id="refresh">↻ Refresh</button></div><div id="feed"></div></article>
+  </div>
+</section>
+
+<section class="page" id="customers">
+  <div class="section-head"><div><small>CRM</small><h2>Customers</h2><p>Customer records persisted through Spring Boot and PostgreSQL.</p></div><button class="primary" id="addCustomer">＋ Add customer</button></div>
+  <div class="panel table-card"><div class="filters"><input id="searchCustomer" placeholder="Search customers…"><select><option>All statuses</option><option>Active</option><option>Lead</option></select></div><div class="table-scroll"><table><thead><tr><th>Customer</th><th>Company</th><th>Status</th><th>Created</th><th></th></tr></thead><tbody id="customersBody"></tbody></table></div></div>
+</section>
+
+<section class="page" id="automations">
+  <div class="section-head"><div><small>n8n ORCHESTRATION</small><h2>Automations</h2><p>Trigger business workflows through your n8n production webhook.</p></div><button class="primary" id="demoTrigger">▶ Trigger demo</button></div>
+  <div class="cards" id="flowCards"></div>
+</section>
+
+<section class="page" id="executions">
+  <div class="section-head"><div><small>OBSERVABILITY</small><h2>Execution history</h2><p>Trace runs across Java, n8n, Python and PostgreSQL.</p></div><button class="ghost" id="refreshTable">↻ Refresh</button></div>
+  <div class="panel table-card"><div class="table-scroll"><table><thead><tr><th>Run</th><th>Workflow</th><th>Status</th><th>Duration</th><th>Started</th></tr></thead><tbody id="execBody"></tbody></table></div></div>
+</section>
+
+<section class="page" id="reports">
+  <div class="section-head"><div><small>INTELLIGENCE</small><h2>Reports</h2><p>Generate business summaries with the Python automation service.</p></div><button class="primary" id="reportBtn">Generate report</button></div>
+  <div class="report-grid"><article class="panel report"><small>LAST GENERATED</small><h3>Daily Operations Summary</h3><p>Combined workflow volume, health, customers and time-saving metrics.</p><strong>99.4%<small>automation health</small></strong></article><article class="panel"><h3>Automation impact</h3><canvas id="impact"></canvas></article></div>
+</section>
+</main>
+
+<div class="modal" id="flowModal"><div class="dialog"><div class="head"><div><small>CREATE</small><h3>New automation</h3></div><button class="x">×</button></div><label>Workflow name<input id="flowName" placeholder="e.g. Lead follow-up"></label><label>Trigger<select><option>Webhook received</option><option>Customer created</option><option>Scheduled event</option></select></label><label>Action<select><option>Send to n8n</option><option>Generate report</option><option>Create task</option></select></label><div class="dialog-actions"><button class="ghost x">Cancel</button><button class="primary" id="saveFlow">Create workflow</button></div></div></div>
+<div class="modal" id="customerModal"><div class="dialog"><div class="head"><div><small>CRM</small><h3>Add customer</h3></div><button class="cx">×</button></div><label>Name<input id="cName"></label><label>Email<input id="cEmail"></label><label>Company<input id="cCompany"></label><div class="dialog-actions"><button class="ghost cx">Cancel</button><button class="primary" id="saveCustomer">Save customer</button></div></div></div>
+<div class="command" id="palette"><div><label>⌕ <input id="paletteInput" placeholder="Type a page or command…"><kbd>ESC</kbd></label><button data-go="dashboard">⌂ Open dashboard</button><button data-go="customers">◎ View customers</button><button data-go="automations">⌁ Manage automations</button><button data-go="executions">↯ Execution history</button><button data-go="reports">▥ Reports</button></div></div>
+<div id="toast"></div><script src="config.js"></script><script src="app.js"></script>
+</body></html>
