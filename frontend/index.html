@@ -27,13 +27,46 @@
 </header>
 
 <section class="page active" id="dashboard">
-  <div class="hero"><div><small>LIVE BUSINESS AUTOMATION</small><h2>Automate operations. <em>Measure everything.</em></h2><p>A portfolio-grade command center connecting Spring Boot, FastAPI, PostgreSQL and your n8n workflows.</p><div class="hero-actions"><button class="primary" data-jump="automations">Explore automations</button><button class="ghost" data-jump="executions">View executions</button></div></div><div class="score"><div><span id="heroSuccess">0</span><small>% success</small></div></div></div>
+  <div class="hero"><div><small>LIVE BUSINESS AUTOMATION</small><h2>Automate operations. <em>Measure everything.</em></h2><p>A portfolio-grade command center connecting Spring Boot, FastAPI, PostgreSQL and your n8n workflows.</p><div class="hero-actions"><button class="primary" data-jump="automations">Explore automations</button><button class="ghost" data-jump="executions">View executions</button><a class="ghost hero-link" href="https://github.com/asadh-74/AutoFlow" target="_blank" rel="noreferrer">GitHub ↗</a></div></div><div class="score"><div><span id="heroSuccess">0</span><small>% success</small></div></div></div>
+  <div class="recruiter-strip">
+    <div>
+      <small>RECRUITER SNAPSHOT</small>
+      <h3>One project. Multiple engineering disciplines.</h3>
+      <p>Full-stack development, backend APIs, workflow automation, databases, containers, CI/CD and cloud deployment in one working system.</p>
+    </div>
+    <div class="stack-badges">
+      <span>Java 21</span><span>Spring Boot</span><span>FastAPI</span><span>PostgreSQL</span><span>n8n</span><span>Docker</span><span>Render</span><span>GitHub Actions</span>
+    </div>
+  </div>
+
+  <div class="architecture-card panel">
+    <div class="head"><div><small>SYSTEM DESIGN</small><h3>Production-style architecture</h3></div><a class="link" href="https://autoflow-java-api.onrender.com/api/health" target="_blank" rel="noreferrer">Live API ↗</a></div>
+    <div class="architecture-flow">
+      <div class="arch-node"><b>Frontend</b><small>HTML · CSS · JS</small></div>
+      <span>→</span>
+      <div class="arch-node"><b>Spring Boot</b><small>REST API · orchestration</small></div>
+      <span>→</span>
+      <div class="arch-node"><b>PostgreSQL</b><small>Customers · executions</small></div>
+      <span class="arch-split">↘</span>
+      <div class="arch-node accent"><b>n8n</b><small>Workflow automation</small></div>
+      <span>↔</span>
+      <div class="arch-node"><b>FastAPI</b><small>Reports · data utilities</small></div>
+    </div>
+  </div>
+
   <div class="metrics">
     <article><span>↯</span><small>Workflow runs</small><h3 id="metricRuns">0</h3><b id="metricRunsChange">Live</b><p>stored executions</p></article>
     <article><span>✓</span><small>Success rate</small><h3 id="metricSuccess">0%</h3><b id="metricSuccessText">Live</b><p>successful executions</p></article>
     <article><span>◎</span><small>Active customers</small><h3 id="metricCustomers">0</h3><b id="metricCustomersText">Live</b><p>PostgreSQL customers</p></article>
     <article><span>◷</span><small>Average duration</small><h3 id="metricDuration">0ms</h3><b id="metricDurationText">Live</b><p>workflow response time</p></article>
   </div>
+  <div class="proof-grid">
+    <article class="proof-card"><span>01</span><h3>Backend Engineering</h3><p>Java Spring Boot APIs, validation, persistence and service-to-service communication.</p></article>
+    <article class="proof-card"><span>02</span><h3>Automation</h3><p>n8n webhook orchestration with tracked workflow execution and failure handling.</p></article>
+    <article class="proof-card"><span>03</span><h3>Cloud & DevOps</h3><p>Dockerized services, Render deployment configuration and GitHub Actions CI.</p></article>
+    <article class="proof-card"><span>04</span><h3>Data Layer</h3><p>PostgreSQL-backed customer and execution data surfaced through live dashboard metrics.</p></article>
+  </div>
+
   <div class="grid">
     <article class="panel chart"><div class="head"><div><small>PERFORMANCE</small><h3>Automation activity</h3></div><select><option>Last 7 days</option></select></div><canvas id="activity"></canvas></article>
     <article class="panel"><div class="head"><div><small>INFRASTRUCTURE</small><h3>Service health</h3></div><b class="ok">● Operational</b></div><div id="services"></div></article>
