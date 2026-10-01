@@ -27,12 +27,12 @@
 </header>
 
 <section class="page active" id="dashboard">
-  <div class="hero"><div><small>LIVE BUSINESS AUTOMATION</small><h2>Automate operations. <em>Measure everything.</em></h2><p>A portfolio-grade command center connecting Spring Boot, FastAPI, PostgreSQL and your n8n workflows.</p><div class="hero-actions"><button class="primary" data-jump="automations">Explore automations</button><button class="ghost" data-jump="executions">View executions</button></div></div><div class="score"><div>99.4<small>% success</small></div></div></div>
+  <div class="hero"><div><small>LIVE BUSINESS AUTOMATION</small><h2>Automate operations. <em>Measure everything.</em></h2><p>A portfolio-grade command center connecting Spring Boot, FastAPI, PostgreSQL and your n8n workflows.</p><div class="hero-actions"><button class="primary" data-jump="automations">Explore automations</button><button class="ghost" data-jump="executions">View executions</button></div></div><div class="score"><div><span id="heroSuccess">0</span><small>% success</small></div></div></div>
   <div class="metrics">
-    <article><span>↯</span><small>Workflow runs</small><h3>1,248</h3><b>↑ 18.2%</b><p>vs previous period</p></article>
-    <article><span>✓</span><small>Success rate</small><h3>99.4%</h3><b>↑ 0.8%</b><p>healthy execution</p></article>
-    <article><span>◎</span><small>Active customers</small><h3>486</h3><b>↑ 32</b><p>this month</p></article>
-    <article><span>◷</span><small>Hours automated</small><h3>214h</h3><b>↑ 41h</b><p>estimated saved</p></article>
+    <article><span>↯</span><small>Workflow runs</small><h3 id="metricRuns">0</h3><b id="metricRunsChange">Live</b><p>stored executions</p></article>
+    <article><span>✓</span><small>Success rate</small><h3 id="metricSuccess">0%</h3><b id="metricSuccessText">Live</b><p>successful executions</p></article>
+    <article><span>◎</span><small>Active customers</small><h3 id="metricCustomers">0</h3><b id="metricCustomersText">Live</b><p>PostgreSQL customers</p></article>
+    <article><span>◷</span><small>Average duration</small><h3 id="metricDuration">0ms</h3><b id="metricDurationText">Live</b><p>workflow response time</p></article>
   </div>
   <div class="grid">
     <article class="panel chart"><div class="head"><div><small>PERFORMANCE</small><h3>Automation activity</h3></div><select><option>Last 7 days</option></select></div><canvas id="activity"></canvas></article>
@@ -61,7 +61,7 @@
 
 <section class="page" id="reports">
   <div class="section-head"><div><small>INTELLIGENCE</small><h2>Reports</h2><p>Generate business summaries with the Python automation service.</p></div><button class="primary" id="reportBtn">Generate report</button></div>
-  <div class="report-grid"><article class="panel report"><small>LAST GENERATED</small><h3>Daily Operations Summary</h3><p>Combined workflow volume, health, customers and time-saving metrics.</p><strong>99.4%<small>automation health</small></strong></article><article class="panel"><h3>Automation impact</h3><canvas id="impact"></canvas></article></div>
+  <div class="report-grid"><article class="panel report"><small>LAST GENERATED</small><h3>Daily Operations Summary</h3><p>Combined workflow volume, health, customers and time-saving metrics.</p><strong><span id="reportHealth">0%</span><small>automation health</small></strong></article><article class="panel"><h3>Automation impact</h3><canvas id="impact"></canvas></article></div>
 </section>
 </main>
 
