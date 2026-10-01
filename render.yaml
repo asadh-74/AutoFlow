@@ -7,19 +7,20 @@ services:
     dockerContext: ./java-backend
     healthCheckPath: /api/health
     envVars:
-      - key: DATABASE_URL
-        fromDatabase:
-          name: autoflow-db
-          property: connectionString
+      - key: DB_HOST
+        fromDatabase: { name: autoflow-db, property: host }
+      - key: DB_PORT
+        fromDatabase: { name: autoflow-db, property: port }
+      - key: DB_NAME
+        fromDatabase: { name: autoflow-db, property: database }
+      - key: DB_USER
+        fromDatabase: { name: autoflow-db, property: user }
+      - key: DB_PASSWORD
+        fromDatabase: { name: autoflow-db, property: password }
       - key: N8N_WEBHOOK_URL
         sync: false
       - key: N8N_WEBHOOK_SECRET
         sync: false
-      - key: PYTHON_SERVICE_URL
-        fromService:
-          type: web
-          name: autoflow-python-service
-          property: hostport
 
   - type: web
     name: autoflow-python-service
