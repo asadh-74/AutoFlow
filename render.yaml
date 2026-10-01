@@ -1,0 +1,42 @@
+services:
+  - type: web
+    name: autoflow-java-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./java-backend/Dockerfile
+    dockerContext: ./java-backend
+    healthCheckPath: /api/health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: autoflow-db
+          property: connectionString
+      - key: N8N_WEBHOOK_URL
+        sync: false
+      - key: N8N_WEBHOOK_SECRET
+        sync: false
+      - key: PYTHON_SERVICE_URL
+        fromService:
+          type: web
+          name: autoflow-python-service
+          property: hostport
+
+  - type: web
+    name: autoflow-python-service
+    runtime: docker
+    plan: free
+    dockerfilePath: ./python-automation/Dockerfile
+    dockerContext: ./python-automation
+    healthCheckPath: /health
+
+  - type: web
+    name: autoflow-frontend
+    runtime: static
+    buildCommand: echo "Static frontend ready"
+    staticPublishPath: ./frontend
+
+databases:
+  - name: autoflow-db
+    plan: free
+    databaseName: autoflow
+    user: autoflow_user
