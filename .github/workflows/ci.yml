@@ -3,6 +3,7 @@ on:
   push:
     branches: [main]
   pull_request:
+
 jobs:
   java:
     runs-on: ubuntu-latest
@@ -16,7 +17,9 @@ jobs:
           distribution: temurin
           java-version: '21'
           cache: maven
+      - run: mvn -q test
       - run: mvn -q -DskipTests package
+
   python:
     runs-on: ubuntu-latest
     defaults:
@@ -29,3 +32,13 @@ jobs:
           python-version: '3.12'
       - run: pip install -r requirements.txt
       - run: python -m py_compile app/main.py
+
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check frontend/app.js
+      - run: node --check frontend/config.js
