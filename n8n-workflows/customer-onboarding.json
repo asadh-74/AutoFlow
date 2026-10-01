@@ -2,7 +2,7 @@
   "name": "AutoFlow - Customer Onboarding Webhook",
   "nodes": [
     {
-      "parameters": {"httpMethod":"POST","path":"autoflow","responseMode":"lastNode","options":{}},
+      "parameters": {"httpMethod":"POST","path":"autoflow","responseMode":"responseNode","options":{}},
       "id":"webhook-1","name":"AutoFlow Webhook","type":"n8n-nodes-base.webhook","typeVersion":2,"position":[260,300]
     },
     {
