@@ -1,0 +1,26 @@
+{
+  "name": "AutoFlow - Lead Qualification",
+  "nodes": [
+    {
+      "parameters": {"httpMethod":"POST","path":"autoflow-lead-qualification","responseMode":"responseNode","options":{}},
+      "id":"lead-webhook","name":"Lead Qualification Webhook","type":"n8n-nodes-base.webhook","typeVersion":2,"position":[240,300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $json.body || {};\nconst payload = body.payload || {};\nlet score = 0;\nif (payload.email) score += 40;\nif (payload.company) score += 30;\nif (payload.source) score += 10;\nif (String(payload.intent || '').toLowerCase() === 'high') score += 20;\nreturn [{ json: { runId: body.runId, workflow: body.workflow || 'Lead qualification', event: body.event, score, qualified: score >= 50, receivedAt: new Date().toISOString() } }];"
+      },
+      "id":"lead-score","name":"Score Lead","type":"n8n-nodes-base.code","typeVersion":2,"position":[500,300]
+    },
+    {
+      "parameters":{"respondWith":"json","responseBody":"={{ { ok: true, runId: $json.runId, workflow: $json.workflow, score: $json.score, qualified: $json.qualified, message: 'Lead qualification completed' } }}","options":{}},
+      "id":"lead-response","name":"Return Qualification","type":"n8n-nodes-base.respondToWebhook","typeVersion":1.4,"position":[760,300]
+    }
+  ],
+  "connections":{
+    "Lead Qualification Webhook":{"main":[[{"node":"Score Lead","type":"main","index":0}]]},
+    "Score Lead":{"main":[[{"node":"Return Qualification","type":"main","index":0}]]}
+  },
+  "active":false,
+  "settings":{"executionOrder":"v1"},
+  "tags":[]
+}
