@@ -8,15 +8,15 @@ services:
     healthCheckPath: /api/health
     envVars:
       - key: DB_HOST
-        fromDatabase: { name: autoflow-db, property: host }
+        sync: false
       - key: DB_PORT
-        fromDatabase: { name: autoflow-db, property: port }
+        sync: false
       - key: DB_NAME
-        fromDatabase: { name: autoflow-db, property: database }
+        sync: false
       - key: DB_USER
-        fromDatabase: { name: autoflow-db, property: user }
+        sync: false
       - key: DB_PASSWORD
-        fromDatabase: { name: autoflow-db, property: password }
+        sync: false
       - key: N8N_WEBHOOK_URL
         sync: false
       - key: N8N_WEBHOOK_SECRET
@@ -35,9 +35,3 @@ services:
     runtime: static
     buildCommand: echo "Static frontend ready"
     staticPublishPath: ./frontend
-
-databases:
-  - name: autoflow-db
-    plan: free
-    databaseName: autoflow
-    user: autoflow_user
