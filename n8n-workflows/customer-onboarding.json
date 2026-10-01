@@ -1,0 +1,26 @@
+{
+  "name": "AutoFlow - Customer Onboarding Webhook",
+  "nodes": [
+    {
+      "parameters": {"httpMethod":"POST","path":"autoflow","responseMode":"lastNode","options":{}},
+      "id":"webhook-1","name":"AutoFlow Webhook","type":"n8n-nodes-base.webhook","typeVersion":2,"position":[260,300]
+    },
+    {
+      "parameters":{"assignments":{"assignments":[
+        {"id":"run","name":"runId","value":"={{ $json.body.runId }}","type":"string"},
+        {"id":"workflow","name":"workflow","value":"={{ $json.body.workflow }}","type":"string"},
+        {"id":"event","name":"event","value":"={{ $json.body.event }}","type":"string"},
+        {"id":"received","name":"receivedAt","value":"={{ $now }}","type":"string"}
+      ]},"options":{}},
+      "id":"set-1","name":"Normalize Event","type":"n8n-nodes-base.set","typeVersion":3.4,"position":[500,300]
+    },
+    {
+      "parameters":{"respondWith":"json","responseBody":"={{ { ok: true, runId: $json.runId, workflow: $json.workflow, message: 'AutoFlow event accepted by n8n' } }}","options":{}},
+      "id":"respond-1","name":"Return Success","type":"n8n-nodes-base.respondToWebhook","typeVersion":1.4,"position":[740,300]
+    }
+  ],
+  "connections":{"AutoFlow Webhook":{"main":[[{"node":"Normalize Event","type":"main","index":0}]]},"Normalize Event":{"main":[[{"node":"Return Success","type":"main","index":0}]]}},
+  "active":false,
+  "settings":{"executionOrder":"v1"},
+  "tags":[]
+}
