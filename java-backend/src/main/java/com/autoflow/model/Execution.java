@@ -5,6 +5,8 @@ import java.time.Instant;
 public class Execution {
   @Id @GeneratedValue(strategy=GenerationType.IDENTITY) private Long id;
   private String runId; private String workflow; private String status; private Long durationMs;
+  @Column(length=16000) private String outputJson;
+  public String getOutputJson(){return outputJson;} public void setOutputJson(String v){outputJson=v;}
   private Instant startedAt=Instant.now();
   public Execution(){}
   public Execution(String runId,String workflow,String status,Long durationMs){this.runId=runId;this.workflow=workflow;this.status=status;this.durationMs=durationMs;}

@@ -11,6 +11,7 @@ public class ExecutionController {
     return repo.findTop50ByOrderByStartedAtDesc().stream().map(e->{
       Map<String,Object> m=new LinkedHashMap<>();
       m.put("id",e.getRunId());m.put("workflow",e.getWorkflow());m.put("status",e.getStatus());
+      m.put("output",e.getOutputJson());
       m.put("duration",e.getDurationMs()+"ms");m.put("started",e.getStartedAt().toString());return m;
     }).toList();
   }

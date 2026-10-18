@@ -174,3 +174,13 @@ Use Render environment variables for production secrets.
 Use fictional customer details only. Two **local demo** workflows (onboarding checklist and lead qualification) execute real backend logic and persist execution records without sending notifications. The two n8n integrations require privately configured production webhook URLs. A successful webhook response means accepted, not proof that every downstream action completed. Unknown workflow names are rejected.
 
 Reports download current Java dashboard statistics through the Python service rather than fixed sample KPIs. CSV cleaning downloads the cleaned data. Unavailable APIs show an error/empty state rather than fabricated customer records. The custom-workflow dialog explains that new integrations must be configured in n8n.
+
+
+## Complete recording workflow
+1. Add a fictional customer in Customers; edit it and filter the list.
+2. Open Automations, select that customer, and run **Demo customer onboarding**. Show the returned customer and checklist.
+3. Run **Demo lead qualification** with high then low intent. Compare score and decision.
+4. Open Execution History and use **View result** to retrieve a stored output from PostgreSQL.
+5. Generate the daily report from current API counts and clean a CSV with duplicate rows. Show the visible summary and downloaded output.
+
+Local demo workflows execute Java business logic without sending notifications. Production n8n workflows require their own configured webhooks; an unconfigured lead webhook returns 503. The public portfolio app is for fictional records. Free Render services may take time to wake.

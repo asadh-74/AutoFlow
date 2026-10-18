@@ -52,6 +52,12 @@ public class AutomationController {
       Map<String,Object> result=new LinkedHashMap<>();
       result.put("mode","local-demo");
       result.put("notificationsSent",false);
+      Map<String,String> customer=new LinkedHashMap<>();
+      for(String key:java.util.List.of("name","email","company")){
+        String value=String.valueOf(payload.getOrDefault(key,"Demo customer"));
+        customer.put(key,value.substring(0,Math.min(value.length(),200)));
+      }
+      result.put("customer",customer);
       if(req.workflow().equals("Demo lead qualification")) {
         Object raw=payload.getOrDefault("intent","low");
         int score="high".equalsIgnoreCase(String.valueOf(raw))?85:35;
@@ -62,12 +68,15 @@ public class AutomationController {
         result.put("checklist",java.util.List.of("Review requirements","Prepare workspace","Schedule kickoff"));
       }
       long ms=Duration.ofNanos(System.nanoTime()-started).toMillis();
-      executions.save(new Execution(runId,req.workflow(),"success",ms));
+      Execution execution=new Execution(runId,req.workflow(),"success",ms);
+      try{execution.setOutputJson(new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(result));}
+      catch(com.fasterxml.jackson.core.JsonProcessingException ex){throw new IllegalStateException("Could not serialize workflow output",ex);}
+      executions.save(execution);
       return ResponseEntity.ok(Map.of("ok",true,"runId",runId,"status","completed-local-demo","result",result));
     }
     if(!java.util.Set.of("Customer onboarding","Lead qualification").contains(req.workflow()))
       return ResponseEntity.badRequest().body(Map.of("ok",false,"message","Unsupported workflow"));
-    String targetUrl = webhookUrl;
+    String targetUrl = req.workflow().equals("Lead qualification") ? leadWebhookUrl : webhookUrl;
     if(req.workflow()!=null && req.workflow().equalsIgnoreCase("Lead qualification")
         && leadWebhookUrl!=null && !leadWebhookUrl.isBlank()){
       targetUrl = leadWebhookUrl;

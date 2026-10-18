@@ -83,22 +83,23 @@
 </section>
 
 <section class="page" id="automations">
-  <div class="section-head"><div><small>n8n ORCHESTRATION</small><h2>Automations</h2><p>Trigger business workflows through your n8n production webhook.</p></div><button class="primary" id="demoTrigger">▶ Trigger demo</button></div>
-  <div class="cards" id="flowCards"></div>
+  <div class="section-head"><div><small>n8n ORCHESTRATION</small><h2>Automations</h2><p>Run a local business workflow or your configured n8n integration. Use fictional customer details.</p></div><button class="primary" id="demoTrigger">▶ Trigger demo</button></div>
+  <div class="panel" style="padding:20px;margin-bottom:20px"><label>Customer<select id="workflowCustomer"><option value="">Fictional example customer</option></select></label><label>Lead intent<select id="leadIntent"><option value="high">High</option><option value="low">Low</option></select></label></div>
+  <div class="cards" id="flowCards"></div><article class="panel" style="padding:24px;margin-top:24px"><h3>Workflow output</h3><pre id="workflowOutput" style="white-space:pre-wrap;overflow-wrap:anywhere">Choose a customer and run a demo workflow to see its result here.</pre></article>
 </section>
 
 <section class="page" id="executions">
   <div class="section-head"><div><small>OBSERVABILITY</small><h2>Execution history</h2><p>Trace runs across Java, n8n, Python and PostgreSQL.</p></div><button class="ghost" id="refreshTable">↻ Refresh</button></div>
-  <div class="panel table-card"><div class="table-scroll"><table><thead><tr><th>Run</th><th>Workflow</th><th>Status</th><th>Duration</th><th>Started</th></tr></thead><tbody id="execBody"></tbody></table></div></div>
+  <div class="panel table-card"><div class="table-scroll"><table><thead><tr><th>Run</th><th>Workflow</th><th>Status</th><th>Duration</th><th>Started</th><th>Output</th></tr></thead><tbody id="execBody"></tbody></table></div></div>
 </section>
 
 <section class="page" id="reports">
   <div class="section-head"><div><small>INTELLIGENCE</small><h2>Reports</h2><p>Generate business summaries with the Python automation service.</p></div><button class="primary" id="reportBtn">Generate report</button></div>
-  <label class="ghost" style="display:block;margin:20px 0">Clean a fictional CSV (deduplicate rows &amp; normalize headers)<input id="csvFile" type="file" accept=".csv" style="display:block;margin-top:10px"></label><div class="report-grid"><article class="panel report"><small>LAST GENERATED</small><h3>Daily Operations Summary</h3><p>Download current API counts, recent success rate and average duration.</p><strong><span id="reportHealth">0%</span><small>automation health</small></strong></article><article class="panel"><h3>Automation impact</h3><canvas id="impact"></canvas></article></div>
+  <label class="ghost" style="display:block;margin:20px 0">Clean a fictional CSV (deduplicate rows &amp; normalize headers)<input id="csvFile" type="file" accept=".csv" style="display:block;margin-top:10px"></label><pre id="csvSummary" style="white-space:pre-wrap"></pre><pre id="reportPreview" style="white-space:pre-wrap"></pre><div class="report-grid"><article class="panel report"><small>LAST GENERATED</small><h3>Daily Operations Summary</h3><p>Download current API counts, recent success rate and average duration.</p><strong><span id="reportHealth">0%</span><small>automation health</small></strong></article><article class="panel"><h3>Automation impact</h3><canvas id="impact"></canvas></article></div>
 </section>
 </main>
 
-<div class="modal" id="flowModal"><div class="dialog"><div class="head"><div><small>CREATE</small><h3>New automation</h3></div><button class="x">×</button></div><label>Workflow name<input id="flowName" placeholder="e.g. Lead follow-up"></label><label>Trigger<select><option>Webhook received</option><option>Customer created</option><option>Scheduled event</option></select></label><label>Action<select><option>Send to n8n</option><option>Generate report</option><option>Create task</option></select></label><div class="dialog-actions"><button class="ghost x">Cancel</button><button class="primary" id="saveFlow">View available workflows</button></div></div></div>
+<div class="modal" id="flowModal"><div class="dialog"><div class="head"><div><small>CREATE</small><h3>Workflow setup</h3></div><button class="x">×</button></div><p>Local demo workflows create checklists and lead decisions with no notifications. Production workflows use the n8n URLs configured on the backend. Edit workflow logic in n8n, then configure its production webhook.</p><div class="dialog-actions"><button class="ghost x">Cancel</button><button class="primary" id="saveFlow">View available workflows</button></div></div></div>
 <div class="modal" id="customerModal"><div class="dialog"><div class="head"><div><small>CRM</small><h3>Add customer</h3></div><button class="cx">×</button></div><label>Name<input id="cName"></label><label>Email<input id="cEmail"></label><label>Company<input id="cCompany"></label><div class="dialog-actions"><button class="ghost cx">Cancel</button><button class="primary" id="saveCustomer">Save customer</button></div></div></div>
 <div class="command" id="palette"><div><label>⌕ <input id="paletteInput" placeholder="Type a page or command…"><kbd>ESC</kbd></label><button data-go="dashboard">⌂ Open dashboard</button><button data-go="customers">◎ View customers</button><button data-go="automations">⌁ Manage automations</button><button data-go="executions">↯ Execution history</button><button data-go="reports">▥ Reports</button></div></div>
 <div id="toast"></div><script src="config.js"></script><script src="app.js"></script>
