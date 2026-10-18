@@ -11,9 +11,9 @@ public class CustomerController {
   private final CustomerRepository repo;
   public CustomerController(CustomerRepository repo){this.repo=repo;}
   @GetMapping public List<Customer> all(){return repo.findAll();}
-  @PostMapping public ResponseEntity<Customer> create(@Valid @RequestBody Customer c){return ResponseEntity.status(201).body(repo.save(c));}
+  @PostMapping public ResponseEntity<Customer> create(@Valid @RequestBody Customer c){c.setId(null);return ResponseEntity.status(201).body(repo.save(c));}
   @PutMapping("/{id}") public Customer update(@PathVariable Long id,@RequestBody Customer in){
-    Customer c=repo.findById(id).orElseThrow();
+    Customer c=repo.findById(id).orElseThrow(()->new org.springframework.web.server.ResponseStatusException(HttpStatus.NOT_FOUND,"Customer not found"));
     if(in.getName()!=null)c.setName(in.getName()); if(in.getEmail()!=null)c.setEmail(in.getEmail());
     if(in.getCompany()!=null)c.setCompany(in.getCompany()); if(in.getStatus()!=null)c.setStatus(in.getStatus());
     return repo.save(c);

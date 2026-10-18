@@ -3,9 +3,9 @@ WORKDIR /app
 COPY pom.xml .
 RUN mvn -q -DskipTests dependency:go-offline
 COPY src ./src
-RUN mvn -q -DskipTests package
+RUN mvn -q package
 FROM eclipse-temurin:21-jre
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 10000
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java","-XX:MaxRAMPercentage=65.0","-XX:ActiveProcessorCount=1","-jar","app.jar"]

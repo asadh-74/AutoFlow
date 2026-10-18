@@ -43,6 +43,30 @@ public class AutomationController {
 
   @PostMapping("/trigger")
   public ResponseEntity<Map<String,Object>> trigger(@RequestBody TriggerRequest req){
+    if(req.workflow()==null || req.workflow().isBlank())
+      return ResponseEntity.badRequest().body(Map.of("ok",false,"message","Choose a supported workflow"));
+    if(req.workflow().equals("Demo customer onboarding") || req.workflow().equals("Demo lead qualification")) {
+      String runId="DEMO-"+java.util.UUID.randomUUID();
+      long started=System.nanoTime();
+      Map<String,Object> payload=req.payload()==null?Map.of():req.payload();
+      Map<String,Object> result=new LinkedHashMap<>();
+      result.put("mode","local-demo");
+      result.put("notificationsSent",false);
+      if(req.workflow().equals("Demo lead qualification")) {
+        Object raw=payload.getOrDefault("intent","low");
+        int score="high".equalsIgnoreCase(String.valueOf(raw))?85:35;
+        result.put("score",score);
+        result.put("decision",score>=70?"qualified":"needs-review");
+      } else {
+        result.put("steps",java.util.List.of("Validate demo payload","Prepare onboarding checklist","Record execution"));
+        result.put("checklist",java.util.List.of("Review requirements","Prepare workspace","Schedule kickoff"));
+      }
+      long ms=Duration.ofNanos(System.nanoTime()-started).toMillis();
+      executions.save(new Execution(runId,req.workflow(),"success",ms));
+      return ResponseEntity.ok(Map.of("ok",true,"runId",runId,"status","completed-local-demo","result",result));
+    }
+    if(!java.util.Set.of("Customer onboarding","Lead qualification").contains(req.workflow()))
+      return ResponseEntity.badRequest().body(Map.of("ok",false,"message","Unsupported workflow"));
     String targetUrl = webhookUrl;
     if(req.workflow()!=null && req.workflow().equalsIgnoreCase("Lead qualification")
         && leadWebhookUrl!=null && !leadWebhookUrl.isBlank()){
@@ -84,7 +108,7 @@ public class AutomationController {
       return ResponseEntity.status(502).body(Map.of(
         "ok",false,
         "runId",runId,
-        "message","n8n request failed: "+ex.getMessage()
+        "message","n8n request failed. Check the private service logs and webhook configuration."
       ));
     }
   }

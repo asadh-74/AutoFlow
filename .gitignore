@@ -1,10 +1,7 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+target/
 .env
 .env.*
 !.env.example
-target/
-__pycache__/
-*.pyc
-.venv/
-.idea/
-.vscode/
-.DS_Store

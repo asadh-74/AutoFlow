@@ -168,3 +168,9 @@ Never commit:
 - access tokens
 
 Use Render environment variables for production secrets.
+
+## Public demo behavior
+
+Use fictional customer details only. Two **local demo** workflows (onboarding checklist and lead qualification) execute real backend logic and persist execution records without sending notifications. The two n8n integrations require privately configured production webhook URLs. A successful webhook response means accepted, not proof that every downstream action completed. Unknown workflow names are rejected.
+
+Reports download current Java dashboard statistics through the Python service rather than fixed sample KPIs. CSV cleaning downloads the cleaned data. Unavailable APIs show an error/empty state rather than fabricated customer records. The custom-workflow dialog explains that new integrations must be configured in n8n.
