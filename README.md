@@ -184,3 +184,9 @@ Reports download current Java dashboard statistics through the Python service ra
 5. Generate the daily report from current API counts and clean a CSV with duplicate rows. Show the visible summary and downloaded output.
 
 Local demo workflows execute Java business logic without sending notifications. Production n8n workflows require their own configured webhooks; an unconfigured lead webhook returns 503. The public portfolio app is for fictional records. Free Render services may take time to wake.
+
+## Client workflow upgrades
+- Lead operations: `frontend/leads.html`. Validated fictional enquiries update the PostgreSQL CRM by normalized email. Submission IDs make retries idempotent; a changed payload with an existing ID returns 409. Customer update, staff inbox entry and execution audit commit in one transaction. Notifications are internal only.
+- DocFlow: Python service `/docflow`. Upload an unlocked text PDF (2 MB, 20 pages), review label-extracted fields, correct arithmetic exceptions, approve and export CSV. Includes normal and incorrect-total sample PDFs. No OCR or universal-layout AI extraction is claimed; scanned/unsupported fields require manual review.
+- DocFlow is browser-session isolated; SQLite demo records expire after 24 hours and reset on ephemeral hosting restarts. Do not upload private documents.
+- Tests: Java `mvn test`; Python `pytest tests`. Use Java 21 in deployment.

@@ -54,3 +54,6 @@ def prepare_message(item: Message):
         "recipient":item.email,
         "body":f"Hello {item.customer}, this automated message was prepared by AutoFlow for: {item.action}."
     }
+
+from .docflow import router as docflow_router
+app.include_router(docflow_router)
