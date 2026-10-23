@@ -32,7 +32,7 @@ jobs:
           python-version: '3.12'
       - run: pip install -r requirements.txt pytest httpx
       - run: python -m py_compile app/main.py app/lead_agent.py
-      - run: pytest -q tests
+      - run: PYTHONPATH=. pytest -q tests
 
   frontend:
     runs-on: ubuntu-latest
