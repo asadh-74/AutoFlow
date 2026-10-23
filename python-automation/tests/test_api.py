@@ -17,3 +17,23 @@ def test_csv_download_is_actually_cleaned():
 def test_cors_for_hosted_frontend():
     r=client.options('/reports/daily',headers={'Origin':'https://autoflow-frontend-syr5.onrender.com','Access-Control-Request-Method':'POST'})
     assert r.headers['access-control-allow-origin']=='https://autoflow-frontend-syr5.onrender.com'
+
+def test_lead_agent_returns_reviewable_recommendation(monkeypatch):
+    monkeypatch.delenv('GEMINI_API_KEY', raising=False)
+    r=client.post('/agent/lead-review',json={
+        'name':'Jordan Avery','company':'Northstar Studio',
+        'message':'We urgently need pricing for an automation demo this week.'
+    })
+    assert r.status_code==200
+    body=r.json()
+    assert body['provider']=='rules_demo'
+    assert body['status']=='awaiting_human_approval'
+    assert body['human_approval_required'] is True
+    assert body['action_executed'] is False
+    assert body['recommendation']['intent']=='sales_enquiry'
+    assert body['recommendation']['priority']=='high'
+    assert len(body['agent_trace'])==3
+
+def test_lead_agent_rejects_invalid_payload():
+    r=client.post('/agent/lead-review',json={'name':'','message':'x'})
+    assert r.status_code==422
