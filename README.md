@@ -190,3 +190,21 @@ Local demo workflows execute Java business logic without sending notifications. 
 - DocFlow: Python service `/docflow`. Upload an unlocked text PDF (2 MB, 20 pages), review label-extracted fields, correct arithmetic exceptions, approve and export CSV. Includes normal and incorrect-total sample PDFs. No OCR or universal-layout AI extraction is claimed; scanned/unsupported fields require manual review.
 - DocFlow is browser-session isolated; SQLite demo records expire after 24 hours and reset on ephemeral hosting restarts. Do not upload private documents.
 - Tests: Java `mvn test`; Python `pytest tests`. Use Java 21 in deployment.
+
+
+## Agentic lead operations (new)
+
+The Lead operations workspace now includes a bounded agent review before CRM capture:
+
+1. Validate the name, company and enquiry.
+2. Classify intent, urgency and priority; calculate a lead score.
+3. Recommend a route or follow-up and prepare a reply draft.
+4. Show a short trace and require a human to decide what happens next.
+5. Continue through the existing idempotent CRM capture and internal inbox workflow.
+
+The agent does **not** modify CRM data, send email, or call external tools. The demo works without credentials using explicitly labeled keyword rules. To enable Gemini for a private/local demo, set `GEMINI_API_KEY` and optionally `GEMINI_MODEL` in the Python service environment. Never commit the key or expose a paid key on an unauthenticated public service. Gemini output is schema-validated and still needs human review; AI output is not guaranteed to be correct.
+
+- Endpoint: `POST /agent/lead-review`
+- UI: `frontend/leads.html`
+- Tests: `pytest tests` from `python-automation` (includes rules-mode, approval-gate and input validation checks)
+- Current limits: lead review is advisory, not an autonomous CRM writer. External CRM/email integrations still require private n8n configuration.

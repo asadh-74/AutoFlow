@@ -5,7 +5,9 @@ from datetime import datetime, timezone
 from io import BytesIO
 import pandas as pd
 
-app = FastAPI(title="AutoFlow Python Automation Service", version="1.0.0")
+from .lead_agent import LeadInput, review_lead
+
+app = FastAPI(title="AutoFlow Python Automation Service", version="1.1.0")
 app.add_middleware(CORSMiddleware, allow_origins=["https://autoflow-frontend-syr5.onrender.com", "http://localhost:5173"], allow_methods=["GET", "POST"], allow_headers=["Content-Type"])
 
 @app.get("/health")
@@ -53,6 +55,27 @@ def prepare_message(item: Message):
         "subject":f"AutoFlow: {item.action.title()} for {item.customer}",
         "recipient":item.email,
         "body":f"Hello {item.customer}, this automated message was prepared by AutoFlow for: {item.action}."
+    }
+
+@app.post("/agent/lead-review")
+def agent_lead_review(lead: LeadInput):
+    """Bounded AI triage: return a proposal and trace; no CRM writes or messages are sent."""
+    try:
+        recommendation, provider, model = review_lead(lead)
+    except RuntimeError as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+    return {
+        "status": "awaiting_human_approval",
+        "provider": provider,
+        "model": model,
+        "recommendation": recommendation.model_dump(),
+        "agent_trace": [
+            {"step": "intake", "result": "Lead fields validated"},
+            {"step": "triage", "result": f"Structured review produced by {provider}"},
+            {"step": "policy_gate", "result": "No CRM update or external message without human approval"},
+        ],
+        "human_approval_required": True,
+        "action_executed": False,
     }
 
 from .docflow import router as docflow_router
