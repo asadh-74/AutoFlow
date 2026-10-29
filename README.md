@@ -1,5 +1,17 @@
 # AutoFlow — Intelligent Business Automation Platform
 
+## Recruiter overview
+
+**Problem:** business enquiries and operational tasks need consistent validation, clear handoffs and traceable results.
+
+**Implementation:** Spring Boot owns customers, lead capture and execution records in PostgreSQL. FastAPI provides CSV cleaning, document review and bounded lead recommendations. Browser workspaces surface the status; optional n8n webhooks connect external systems.
+
+**Evidence:** Python regression tests exercise API validation, CSV cleanup, rules-based lead review and document approval/session isolation. Java tests exist, but the 29 October local Java check was blocked by dependency resolution and the environment's Java 17 installation (project requires Java 21). No live CRM/email delivery is claimed.
+
+**Limits:** public demo records are fictional; no tenant authentication is supplied. Lead recommendations need human review. Provider responses and externally configured workflows must be tested separately.
+
+[Demo guide and sample inputs](DEMO.md) · [Validation notes](VALIDATION.md)
+
 AutoFlow is a portfolio-grade full-stack business automation system that combines **Java, Python, SQL, n8n, HTML/CSS/JavaScript, Docker and Render** in one coherent project.
 
 ## Stack
